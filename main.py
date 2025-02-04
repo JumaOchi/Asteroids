@@ -8,6 +8,8 @@ from shot import Shot
 
 def main() :
     pygame.init()
+    font = pygame.font.SysFont(None, 36)  # Default system font, size 36
+
 
     print("Starting asteroids!")
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -47,14 +49,25 @@ def main() :
         #  is detected, the program should print Game over on screen! and immediately exit the program
         for asteroid in asteroids:
             if player1.collision(asteroid):
-                print("Game over!")
-                return
+                # Display Game Over at the center
+                game_over_surface = font.render("Game Over!", True, (255, 0, 0))
+                screen.blit(game_over_surface, (SCREEN_WIDTH // 2 - 80, SCREEN_HEIGHT // 2))
+                pygame.display.flip()
+                pygame.time.wait(2000)  # Pause for 2 seconds
+                return  # Exit after showing Game Over
+
         #iterating to check if any of the shots collide with the asteroids
         for shot in shots_group:
             for asteroid in asteroids:
                 if shot.collision(asteroid):
+                    #print("Hit detected!")  # Debugging line
+                    player1.add_score(asteroid)  # Add points based on asteroid size
                     asteroid.split()
-                    shot.kill()
+        
+        # Render score on the top-left corner
+        score_surface = font.render(f"Score: {player1.score}", True, (255, 255, 255))
+        screen.blit(score_surface, (10, 10))
+
 
         pygame.display.flip()
         time.tick(60)

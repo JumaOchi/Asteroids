@@ -8,6 +8,8 @@ class Player(CircleShape) :
         super().__init__(x, y, radius)
         self.rotation = 0
         self.shoot_cooldown = 0 #new variable to act as timer
+        self.score = 0
+        self.is_alive = True  # Track player state
 
     # in the player class
     def triangle(self):
@@ -56,3 +58,14 @@ class Player(CircleShape) :
         shot = Shot(position.x, position.y, SHOT_RADIUS)
         shot.velocity = forward * PLAYER_SHOOT_SPEED
 
+    def add_score(self, asteroid):
+        if asteroid.radius <= SMALL_ASTEROID_RADIUS:
+            self.score += 3
+        elif asteroid.radius <= MEDIUM_ASTEROID_RADIUS:
+            self.score += 2
+        else:
+            self.score += 1
+
+    def hit(self):
+        self.is_alive = False  # Mark player as dead
+    

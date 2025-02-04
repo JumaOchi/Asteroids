@@ -24,7 +24,9 @@ class Asteroid(CircleShape) :
         # First asteroid: velocity scaled by 1.2
         new_asteroid1 = Asteroid(self.position.x, self.position.y, new_radius)
         new_asteroid1.velocity = self.velocity.rotate(random_angle) * 1.2
+        new_asteroid1.add(self.containers)  # Add to the sprite groups
 
         # Second asteroid: original velocity (no scaling)
         new_asteroid2 = Asteroid(self.position.x, self.position.y, new_radius)
         new_asteroid2.velocity = self.velocity.rotate(-random_angle)
+        new_asteroid2.add(self.containers)  # Add to the sprite groups
